@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ListaParaOCarlos</string>
+    <string name="titulo_da_tarefa">Título da tarefa</string>
+    <string name="descricao_opcional">Descrição (opcional)</string>
+    <string name="salvar">Salvar</string>
+    <string name="adicione_uma_tarefa">Adicione uma tarefa!</string>
+</resources>
