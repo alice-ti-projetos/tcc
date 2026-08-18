@@ -30,6 +30,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        escreveTarefa();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+        boolean isEmpty = tarefaManager.getTarefas().isEmpty();
+        textViewEmpty.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+        recyclerViewTasks.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+    }
+
+    private void escreveTarefa(){
+
         intent = new Intent(MainActivity.this, AdicionarEditarActivity.class);
 
         tarefaManager = TarefaManager.getInstance();
@@ -48,14 +62,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        adapter.notifyDataSetChanged();
-        boolean isEmpty = tarefaManager.getTarefas().isEmpty();
-        textViewEmpty.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
-        recyclerViewTasks.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
     }
 }

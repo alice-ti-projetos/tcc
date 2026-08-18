@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.listaparaocarlos.R;
 import com.example.listaparaocarlos.managers.TarefaManager;
+import com.example.listaparaocarlos.models.Tarefa;
 
 public class AdicionarEditarActivity extends AppCompatActivity {
 
@@ -20,6 +21,11 @@ public class AdicionarEditarActivity extends AppCompatActivity {
 
     Intent intent;
     TarefaManager tarefaManager;
+
+
+    //depois vamos adicionar pelo banco o id e se foi concluida.
+    int id = 0;
+    boolean concluida = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,23 +38,50 @@ public class AdicionarEditarActivity extends AppCompatActivity {
 
         tarefaManager = TarefaManager.getInstance();
 
-        //depois vamos adicionar pelo banco o id e se foi concluida.
-        int id = 0;
-        boolean concluida = false;
+        if (getIntent().hasExtra("id")) {
+            id = getIntent().getIntExtra("id", 0);
+            Tarefa tarefa = tarefaManager.getTarefaById(id);
+            if (tarefa != null) {
+                concluida = tarefa.isConcluida();
+                tituloTxt.setText(tarefa.getTitulo());
+                descTxt.setText(tarefa.getDescricao());
+            }
+        }
 
-        //adiciona tarefa
-       salveBtn.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               tarefaManager.adicionarTarefa(id,
-                       tituloTxt.getText().toString(),
-                       descTxt.getText().toString(),
-                       concluida);
-               intent = new Intent(AdicionarEditarActivity.this, MainActivity.class);
-               startActivity(intent);
-               finish();
-           }
-       });
+        salveBtn.setOnClickListener(v -> editarOuSalvar());
+    }
+
+    private void editarOuSalvar(){
+        if (getIntent().hasExtra("id")) {
+            editarTarefa();
+        }
+        else{
+            salvarTarefa();
+        }
 
     }
+
+    private void editarTarefa(){
+        tarefaManager.atualizarTarefa(
+                id,
+                tituloTxt.getText().toString(),
+                descTxt.getText().toString(),
+                concluida
+        );
+        intent = new Intent(AdicionarEditarActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+
+
+    private void salvarTarefa(){
+        tarefaManager.adicionarTarefa(
+                tituloTxt.getText().toString(),
+                descTxt.getText().toString(),
+                concluida);
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+    }
+
 }

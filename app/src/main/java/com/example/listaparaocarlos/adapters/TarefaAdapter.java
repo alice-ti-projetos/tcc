@@ -1,5 +1,6 @@
 package com.example.listaparaocarlos.adapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.listaparaocarlos.R;
+import com.example.listaparaocarlos.activities.AdicionarEditarActivity;
+import com.example.listaparaocarlos.activities.MainActivity;
 import com.example.listaparaocarlos.managers.TarefaManager;
 import com.example.listaparaocarlos.models.Tarefa;
 
@@ -20,7 +23,6 @@ public class TarefaAdapter extends RecyclerView.Adapter<TarefaAdapter.TarefaView
 
     private List<Tarefa> tarefas;
     private TarefaManager tarefaManager;
-
     public TarefaAdapter(List<Tarefa> tarefas, TarefaManager tarefaManager) {
         this.tarefas = tarefas;
         this.tarefaManager = tarefaManager;
@@ -38,9 +40,12 @@ public class TarefaAdapter extends RecyclerView.Adapter<TarefaAdapter.TarefaView
     public void onBindViewHolder(@NonNull TarefaViewHolder holder, int position) {
         Tarefa tarefa = tarefas.get(position);
 
-        holder.textViewTaskTitle.setText(tarefa.getTitulo());
         holder.checkBoxDone.setOnCheckedChangeListener(null); // evita disparo indevido no reuso da view
         holder.checkBoxDone.setChecked(tarefa.isConcluida());
+        holder.textViewTaskTitle.setText(tarefa.getTitulo());
+        holder.textViewTaskDesc.setText(tarefa.getDescricao());
+
+
 
         holder.checkBoxDone.setOnCheckedChangeListener((buttonView, isChecked) -> {
             tarefaManager.atualizarTarefa(
@@ -58,6 +63,17 @@ public class TarefaAdapter extends RecyclerView.Adapter<TarefaAdapter.TarefaView
             tarefas.remove(pos);
             notifyItemRemoved(pos);
         });
+
+        holder.textViewTaskTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(),AdicionarEditarActivity.class).putExtra("id", tarefa.getId());
+                v.getContext().startActivity(intent);
+            }
+        });
+
+
+
     }
 
     @Override
@@ -67,14 +83,22 @@ public class TarefaAdapter extends RecyclerView.Adapter<TarefaAdapter.TarefaView
 
     public static class TarefaViewHolder extends RecyclerView.ViewHolder {
         TextView textViewTaskTitle;
+
+        TextView textViewTaskDesc;
         CheckBox checkBoxDone;
         ImageButton buttonDelete;
+
+
 
         public TarefaViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewTaskTitle = itemView.findViewById(R.id.textViewTaskTitle);
+            textViewTaskDesc = itemView.findViewById(R.id.textViewTaskDesc);
             checkBoxDone = itemView.findViewById(R.id.checkBoxDone);
             buttonDelete = itemView.findViewById(R.id.buttonDelete);
+
+            
         }
     }
+
 }
