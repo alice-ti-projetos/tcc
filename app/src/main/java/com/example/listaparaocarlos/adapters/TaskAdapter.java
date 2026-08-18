@@ -53,14 +53,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         // ✅ Clear listener before setting checked state
         holder.checkBoxDone.setOnCheckedChangeListener(null);
         holder.checkBoxDone.setChecked(task.isDone());
-        holder.textViewTaskTitle.setText(task.getTittle());
+        holder.textViewTaskTitle.setText(task.getTitle());
         holder.textViewTaskDesc.setText(task.getDesc());
 
         // ✅ Re-attach listener after setting state
         holder.checkBoxDone.setOnCheckedChangeListener((buttonView, isChecked) -> {
             taskManager.updateTasks(
                     task.getId(),
-                    task.getTittle(),
+                    task.getTitle(),
                     task.getDesc(),
                     isChecked
             );

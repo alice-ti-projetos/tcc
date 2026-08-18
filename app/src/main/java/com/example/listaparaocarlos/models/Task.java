@@ -2,7 +2,7 @@ package com.example.listaparaocarlos.models;
 
 public class Task {
     private int id = 0;
-    private String tittle = "";
+    private String title = "";
     private String desc = "";
     private boolean isDone = false;
 
@@ -11,9 +11,9 @@ public class Task {
 
      }
 
-     public Task(int id, String tittle, String desc, boolean isDone){
+     public Task(int id, String title, String desc, boolean isDone){
         this.id = id;
-        this.tittle = tittle;
+        this.title = title;
         this.desc = desc;
         this.isDone = isDone;
      }
@@ -26,12 +26,12 @@ public class Task {
         this.id = id;
     }
 
-    public String getTittle() {
-        return tittle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTittle(String tittle) {
-        this.tittle = tittle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDesc() {

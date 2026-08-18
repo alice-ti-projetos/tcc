@@ -15,7 +15,7 @@ import com.example.listaparaocarlos.models.Task;
 
 public class AddAndEditTasksActivity extends AppCompatActivity {
 
-    EditText tittleTxt;
+    EditText titleTxt;
     EditText descTxt;
     Button saveBtn;
 
@@ -33,7 +33,7 @@ public class AddAndEditTasksActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("local_save_before_cloud", MODE_PRIVATE);
 
-        tittleTxt = findViewById(R.id.editTextTaskTitle);
+        titleTxt = findViewById(R.id.editTextTaskTitle);
         descTxt = findViewById(R.id.editTextTaskDescription);
         saveBtn = findViewById(R.id.buttonSaveTask);
         taskManager = TaskManager.getInstance();
@@ -43,7 +43,7 @@ public class AddAndEditTasksActivity extends AppCompatActivity {
             id = getIntent().getIntExtra("id", 0);
             task = taskManager.getTaskById(id);
             if (task != null) {
-                tittleTxt.setText(task.getTittle());
+                titleTxt.setText(task.getTitle());
                 descTxt.setText(task.getDesc());
                 isDone = task.isDone();
             }
@@ -62,7 +62,7 @@ public class AddAndEditTasksActivity extends AppCompatActivity {
 
     private void saveTask() {
         taskManager.addTasks(
-                tittleTxt.getText().toString(),
+                titleTxt.getText().toString(),
                 descTxt.getText().toString(),
                 isDone
         );
@@ -78,7 +78,7 @@ public class AddAndEditTasksActivity extends AppCompatActivity {
         if (task != null) {
             taskManager.updateTasks(
                     id,
-                    tittleTxt.getText().toString(),
+                    titleTxt.getText().toString(),
                     descTxt.getText().toString(),
                     isDone
             );

@@ -52,7 +52,7 @@ public class TaskManager {
     public void updateTasks(int taskId, String title, String desc, boolean isDone){
         for (Task t : tasks) {
             if (t.getId() == taskId) {
-                t.setTittle(title);
+                t.setTitle(title);
                 t.setDesc(desc);
                 t.setDone(isDone);
                 return;
@@ -77,8 +77,8 @@ public class TaskManager {
     }
 
 
-    public int addTasks(String tittle, String desc, boolean isDone){
-        Task task = new Task(nextId, tittle, desc, isDone);
+    public int addTasks(String title, String desc, boolean isDone){
+        Task task = new Task(nextId, title, desc, isDone);
         tasks.add(task);
         return nextId++;
     }
