@@ -1,6 +1,8 @@
 package com.example.listaparaocarlos.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -16,6 +18,7 @@ public class AdicionarEditarActivity extends AppCompatActivity {
     EditText descTxt;
     Button salveBtn;
 
+    Intent intent;
     TarefaManager tarefaManager;
 
     @Override
@@ -26,14 +29,26 @@ public class AdicionarEditarActivity extends AppCompatActivity {
         tituloTxt = findViewById(R.id.editTextTaskTitle);
         descTxt = findViewById(R.id.editTextTaskDescription);
         salveBtn = findViewById(R.id.buttonSaveTask);
-        tarefaManager = new TarefaManager();
+
+        tarefaManager = TarefaManager.getInstance();
+
         //depois vamos adicionar pelo banco o id e se foi concluida.
         int id = 0;
         boolean concluida = false;
 
         //adiciona tarefa
-        salveBtn.setOnClickListener(v -> tarefaManager.adicionarTarefa(id,
-                tituloTxt.getText().toString(), descTxt.getText().toString(), concluida));
+       salveBtn.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               tarefaManager.adicionarTarefa(id,
+                       tituloTxt.getText().toString(),
+                       descTxt.getText().toString(),
+                       concluida);
+               intent = new Intent(AdicionarEditarActivity.this, MainActivity.class);
+               startActivity(intent);
+               finish();
+           }
+       });
 
     }
 }

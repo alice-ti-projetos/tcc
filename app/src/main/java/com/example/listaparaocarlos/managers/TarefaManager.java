@@ -10,17 +10,28 @@ import kotlin.collections.EmptyList;
 
 public class TarefaManager {
 
+    private static TarefaManager instance;
     List<Tarefa> tarefas;
 
-    public TarefaManager(){
+    private TarefaManager(){
         this.tarefas = new ArrayList<Tarefa>();
     }
 
+    public static TarefaManager getInstance(){
+        if (instance == null){
+            instance = new TarefaManager();
+        }
+        return instance;
+    }
+
+    public List<Tarefa> getTarefas() {
+        return tarefas;
+    }
 
     public void adicionarTarefa(int id,
-                                  String titulo,
-                                  String descricao,
-                                  boolean concluida){
+                                String titulo,
+                                String descricao,
+                                boolean concluida){
        Tarefa tarefa = new Tarefa(
                 id,
                 titulo,
