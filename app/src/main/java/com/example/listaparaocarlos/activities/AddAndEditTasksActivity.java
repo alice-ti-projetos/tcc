@@ -3,8 +3,10 @@ package com.example.listaparaocarlos.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.listaparaocarlos.R;
 import com.example.listaparaocarlos.managers.TaskManager;
 import com.example.listaparaocarlos.models.Task;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddAndEditTasksActivity extends AppCompatActivity {
 
@@ -22,6 +27,10 @@ public class AddAndEditTasksActivity extends AppCompatActivity {
     TaskManager taskManager;
     SharedPreferences sharedPreferences;
     Task task;
+
+    ArrayAdapter<String> adapter;
+
+    Spinner spinner;
 
     int id = 0;
     boolean isDone = false;
@@ -36,9 +45,12 @@ public class AddAndEditTasksActivity extends AppCompatActivity {
         titleTxt = findViewById(R.id.editTextTaskTitle);
         descTxt = findViewById(R.id.editTextTaskDescription);
         saveBtn = findViewById(R.id.buttonSaveTask);
+        spinner = findViewById(R.id.LevelOfPrioritySpn);
         taskManager = TaskManager.getInstance();
+        adapter = new ArrayAdapter<>(this, R.layout.add_edit_activity, task.getLevelOfPriority());
+        adapter.setDropDownViewResource(R.layout.add_edit_activity);
+        spinner.setAdapter(adapter);
 
-        // ✅ Load existing task if editing
         if (getIntent().hasExtra("id")) {
             id = getIntent().getIntExtra("id", 0);
             task = taskManager.getTaskById(id);
@@ -53,14 +65,25 @@ public class AddAndEditTasksActivity extends AppCompatActivity {
     }
 
     private void editOrSave() {
+        String selectedPriority = spinner.getSelectedItem().toString();
         if (getIntent().hasExtra("id")) {
-            editTask();
+            editTask(selectedPriority);
         } else {
-            saveTask();
+            saveTask(selectedPriority);
         }
     }
 
-    private void saveTask() {
+    private void saveTask(String levelOfPriority) {
+        if (spinner.isActivated()) {
+            List<String> priorityList = new ArrayList<>();
+            priorityList.add(levelOfPriority);
+            taskManager.addTasks(
+                    titleTxt.getText().toString(),
+                    descTxt.getText().toString(),
+                    isDone,
+                    priorityList
+            );
+        }
         taskManager.addTasks(
                 titleTxt.getText().toString(),
                 descTxt.getText().toString(),
@@ -73,9 +96,20 @@ public class AddAndEditTasksActivity extends AppCompatActivity {
         finish();
     }
 
-    private void editTask() {
+    private void editTask(String levelOfPriority) {
         int id = getIntent().getIntExtra("id", 0);
         if (task != null) {
+            if (spinner.isActivated()){
+                List<String> priorityList = new ArrayList<>();
+                priorityList.add(levelOfPriority);
+                taskManager.updateTasks(
+                        id,
+                        titleTxt.getText().toString(),
+                        descTxt.getText().toString(),
+                        isDone,
+                        priorityList
+                );
+            }
             taskManager.updateTasks(
                     id,
                     titleTxt.getText().toString(),

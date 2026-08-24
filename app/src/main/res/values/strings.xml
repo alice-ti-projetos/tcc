@@ -4,4 +4,9 @@
     <string name="descricao_opcional">Descrição (opcional)</string>
     <string name="salvar">Salvar</string>
     <string name="adicione_uma_tarefa">Adicione uma task!</string>
+    <string-array name="spinner_items">
+        <item>Baixa</item>
+        <item>Média</item>
+        <item>Alta</item>
+    </string-array>
 </resources>

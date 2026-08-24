@@ -49,12 +49,25 @@ public class TaskManager {
     }
 
 
+
     public void updateTasks(int taskId, String title, String desc, boolean isDone){
         for (Task t : tasks) {
             if (t.getId() == taskId) {
                 t.setTitle(title);
                 t.setDesc(desc);
                 t.setDone(isDone);
+                return;
+            }
+        }
+    }
+
+    public void updateTasks(int taskId, String title, String desc, boolean isDone, List<String> levelOfPriority){
+        for (Task t : tasks) {
+            if (t.getId() == taskId) {
+                t.setTitle(title);
+                t.setDesc(desc);
+                t.setDone(isDone);
+                t.setLevelOfPriority(levelOfPriority);
                 return;
             }
         }
@@ -82,4 +95,12 @@ public class TaskManager {
         tasks.add(task);
         return nextId++;
     }
+
+
+    public int addTasks(String title, String desc, boolean isDone, List<String> levelOfPriority){
+        Task task = new Task(nextId, title, desc, isDone, levelOfPriority);
+        tasks.add(task);
+        return nextId++;
+    }
+
 }

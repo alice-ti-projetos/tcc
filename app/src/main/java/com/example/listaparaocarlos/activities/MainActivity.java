@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
         fabAdd = findViewById(R.id.fabAdd);
         recyclerViewTasks = findViewById(R.id.recyclerViewTasks);
         textViewEmpty = findViewById(R.id.textViewEmpty);
-
         recyclerViewTasks.setLayoutManager(new LinearLayoutManager(this));
         adapter = new TaskAdapter(taskManager);
         recyclerViewTasks.setAdapter(adapter);
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
 
-        adapter.notifyDataSetChanged();
+        adapter.notifyAll();
 
 
         boolean isEmpty = taskManager.getTasks().isEmpty();
