@@ -39,17 +39,7 @@ public class AddAndEditTasksActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_edit_activity);
-
-        sharedPreferences = getSharedPreferences("local_save_before_cloud", MODE_PRIVATE);
-
-        titleTxt = findViewById(R.id.editTextTaskTitle);
-        descTxt = findViewById(R.id.editTextTaskDescription);
-        saveBtn = findViewById(R.id.buttonSaveTask);
-        spinner = findViewById(R.id.LevelOfPrioritySpn);
-        taskManager = TaskManager.getInstance();
-        adapter = new ArrayAdapter<>(this, R.layout.add_edit_activity, task.getLevelOfPriority());
-        adapter.setDropDownViewResource(R.layout.add_edit_activity);
-        spinner.setAdapter(adapter);
+        setUpVars();
 
         if (getIntent().hasExtra("id")) {
             id = getIntent().getIntExtra("id", 0);
@@ -62,6 +52,20 @@ public class AddAndEditTasksActivity extends AppCompatActivity {
         }
 
         saveBtn.setOnClickListener(v -> editOrSave());
+    }
+
+    private void setUpVars(){
+        sharedPreferences = getSharedPreferences("local_save_before_cloud", MODE_PRIVATE);
+
+        titleTxt = findViewById(R.id.editTextTaskTitle);
+        descTxt = findViewById(R.id.editTextTaskDescription);
+        saveBtn = findViewById(R.id.buttonSaveTask);
+        spinner = findViewById(R.id.LevelOfPrioritySpn);
+        taskManager = TaskManager.getInstance();
+        adapter = new ArrayAdapter<>(this, R.layout.add_edit_activity, task.getLevelOfPriority());
+        adapter.setDropDownViewResource(R.layout.add_edit_activity);
+        spinner.setAdapter(adapter);
+
     }
 
     private void editOrSave() {

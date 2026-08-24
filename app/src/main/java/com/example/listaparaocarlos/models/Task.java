@@ -8,7 +8,7 @@ public class Task {
     private String title = "";
     private String desc = "";
     private boolean isDone = false;
-    private List<String> levelOfPriority = new ArrayList<String>();
+    private List<String> levelOfPriority = new ArrayList<>();
 
 
     public Task(){

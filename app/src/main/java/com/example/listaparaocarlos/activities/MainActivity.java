@@ -30,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setUpVars();
+        fabAdd.setOnClickListener(v -> startActivity(intent));
+    }
+
+    private void setUpVars(){
 
         intent = new Intent(MainActivity.this, AddAndEditTasksActivity.class);
 
@@ -37,25 +42,19 @@ public class MainActivity extends AppCompatActivity {
 
         taskManager = TaskManager.getInstance();
         taskManager.loadLocally(sharedPreferences);
-
         fabAdd = findViewById(R.id.fabAdd);
         recyclerViewTasks = findViewById(R.id.recyclerViewTasks);
         textViewEmpty = findViewById(R.id.textViewEmpty);
         recyclerViewTasks.setLayoutManager(new LinearLayoutManager(this));
         adapter = new TaskAdapter(taskManager);
         recyclerViewTasks.setAdapter(adapter);
-
-        fabAdd.setOnClickListener(v -> startActivity(intent));
     }
+
 
     @Override
     protected void onResume() {
         super.onResume();
-
-
         adapter.notifyAll();
-
-
         boolean isEmpty = taskManager.getTasks().isEmpty();
         textViewEmpty.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
         recyclerViewTasks.setVisibility(isEmpty ? View.GONE : View.VISIBLE);

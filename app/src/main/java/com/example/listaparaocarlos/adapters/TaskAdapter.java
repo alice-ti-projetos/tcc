@@ -49,14 +49,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         }
 
         Task task = taskList.get(position);
-
-        // ✅ Clear listener before setting checked state
         holder.checkBoxDone.setOnCheckedChangeListener(null);
         holder.checkBoxDone.setChecked(task.isDone());
         holder.textViewTaskTitle.setText(task.getTitle());
         holder.textViewTaskDesc.setText(task.getDesc());
 
-        // ✅ Re-attach listener after setting state
         holder.checkBoxDone.setOnCheckedChangeListener((buttonView, isChecked) -> {
             taskManager.updateTasks(
                     task.getId(),
@@ -66,7 +63,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             );
             task.setDone(isChecked);
             taskManager.saveLocally(holder.itemView.getContext()
-                    .getSharedPreferences("local_save_before_cloud", 0)); // ✅ Save immediately
+                    .getSharedPreferences("local_save_before_cloud", 0));
         });
 
         holder.buttonDelete.setOnClickListener(v -> {
@@ -98,4 +95,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             buttonDelete = itemView.findViewById(R.id.buttonDelete);
         }
     }
+
+
 }
